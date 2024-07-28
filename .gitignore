@@ -1,0 +1,15 @@
+.venv
+__pycache__
+*/__pycache__
+.venv
+*.txt
+.pytest_cache
+.ruff_cache
+dist/
+.DS_Store
+.env
+.dockervenv
+*.txt
+api/localtest*.ipynb
+api/data
+alembic/versions/*

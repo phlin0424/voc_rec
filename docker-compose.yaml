@@ -1,0 +1,66 @@
+version: '3.8'
+
+services:
+  app:
+    build: .
+    env_file:
+      - .env
+    ports:
+      - "4000:80"
+    tty: true
+    volumes:
+      - ./alembic:/app/alembic
+      - ./api/data:/app/api/data
+      - ${ANKI_DB_PATH}:/app/data/collection.anki2
+    command: poetry run uvicorn api.main:app --host 0.0.0.0 --port 80 --reload
+    depends_on:
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: '512M'
+        reservations:
+          cpus: '0.25'
+          memory: '256M'
+  db:
+    image: ankane/pgvector
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: anki_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: '512M'
+        reservations:
+          cpus: '0.25'
+          memory: '256M'
+  streamlit:
+    build: .
+    env_file:
+      - .env
+    volumes:
+      - ./api/data:/app/api/data  # mount the audio output
+    command: poetry run streamlit run api/streamlit_app.py --server.port 8501
+    ports:
+      - "8501:8501"
+    depends_on:
+      - app
+      - db
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: '512M'
+        reservations:
+          cpus: '0.25'
+          memory: '256M'
+
+volumes:
+  pgdata:
