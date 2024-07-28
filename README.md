@@ -33,7 +33,7 @@ VocRec makes use of [vector embedding provided by OpenAI](https://platform.opena
 
     ```bash
     git clone https://github.com/phlin0424/voc_rec.git
-    cd AnkiVocRecommender/
+    cd voc_rec/
     ```
 
 
