@@ -2,6 +2,9 @@
 
 ## Outline
 
+![appui](resources/vocrec_vid.gif)
+
+
 VocRec can recommend similar vocabularies for your [Anki flashcards](https://apps.ankiweb.net/)!
 
 VocRec can synchronize all the flash cards stored in `.anki2`, which is the [Anki database file](https://github.com/ankidroid/Anki-Android/wiki/Database-Structure) for storing the flashcards, and provides several similar vocabularies of a specified card. 
@@ -81,7 +84,16 @@ VocRec makes use of [vector embedding provided by OpenAI](https://platform.opena
     
     You should be able to find the migrated tables in the DB then. 
 
-    
+3. Synchronize the anki flash cards in your Anki flash cards to the APP.
+
+
+    Press the `Sync the Flashcards` button to begin synchronizing the flashcards with the app.
+
+    ![flashcardsync](resources/syncflashcards.png)
+
+    > [!NOTE]  
+    > The process may take several minutes depending on the number of flashcards you have.
+
 
 
 
@@ -92,5 +104,3 @@ Once the containers are up and running, you can access the application via:
 
 - **FastAPI App**: `http://localhost:4000`
 - **Streamlit App**: `http://localhost:8501`
-
-To synchronize your Anki flashcards, use the Streamlit interface or the FastAPI endpoints (`http://localhost:4000/sync/`).
