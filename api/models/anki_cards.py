@@ -18,4 +18,8 @@ class AnkiNoteModel(Base):
     sentence = Column(String)
     translated_sentence = Column(String)
     audio = Column(String)
-    vector = Column(Vector(dim=1536))  # Example vector column with dimension 300
+    vector = Column(Vector(dim=1536))  # Vectorized front word
+    back_vector = Column(Vector(dim=1536))  # Vectorized back word
+    description = Column(
+        Vector(dim=1536)
+    )  # A description that explains the meaning of the word, in a vector form
