@@ -39,6 +39,7 @@ async def insert_card(
         translated_sentence=anki_note_create.translated_sentence,
         audio=anki_note_create.audio,
         vector=[0] * 1536,
+        back_vector=[0] * 1536,
     )
 
     session.add(anki_note)
@@ -77,7 +78,7 @@ async def update_card(
     # (since the vector is dependent on the front word it self)
     vector_flg = True if existing_card.vector is None else False
     # When the vector stored in db is None, the flag got turn on.
-    # So the vectorizing process going on:
+    # So the vectorized process going on:
     if vector_flg:
         if anki_note_update.vector is None:
             logger.info(f"Generate vector of {anki_note_update.front}")
@@ -86,6 +87,20 @@ async def update_card(
             vector = anki_note_update.vector
     else:
         vector = existing_card.vector
+
+    # Back vector
+    vector_flg = True if existing_card.back_vector is None else False
+    # When the vector stored in db is None, the flag got turn on.
+    # So the vectorized process going on:
+    if vector_flg:
+        if anki_note_update.back_vector is None:
+            # If there isn't input value of back vector
+            logger.info(f"Generate vector of {anki_note_update.back}")
+            vector = generate_vector(anki_note_update.back)
+        else:
+            vector = anki_note_update.back_vector
+    else:
+        vector = existing_card.back_vector
 
     # Update the existing card:
     existing_card.back = back
