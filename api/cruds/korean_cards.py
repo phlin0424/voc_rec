@@ -175,18 +175,29 @@ async def get_all_similarities(
 
     similarities = []
     target_vector = target_note.vector
+    target_back_vector = target_note.back_vector
+
     for card in all_cards:
         try:
             if card.front != target_note.front:
                 # Create the array for the vector of an existing card
                 vector = np.array(card.vector)
 
-                # Create the array for the vector of the target card
-                similarity = compute_cosine_similarity(
-                    vector,
-                    target_vector,
+                # Create the array for the back vector of an existing card
+                back_vector = np.array(card.back_vector)
+
+                # Similarities to the vector
+                similarity = compute_cosine_similarity(vector, target_vector)
+
+                # Similarities to the back vector
+                similarity_back = compute_cosine_similarity(
+                    back_vector, target_back_vector
                 )
-                similarities.append({"word": card.front, "similarity": similarity})
+
+                # Average the similarities
+                similarity_ave = (similarity + similarity_back) / 2
+
+                similarities.append({"word": card.front, "similarity": similarity_ave})
         except ValueError:
             logger.warning(
                 f"{card.front} is not included in cosine similarity calculation: vector: {vector}",
