@@ -66,6 +66,7 @@ class KoVocSchema(BaseModel):
     front: str
     back: Optional[str] = None
     vector: Optional[List[float]] = None
+    back_vector: Optional[List[float]] = None
     audio: Optional[str] = None
 
     @model_validator(mode="after")
