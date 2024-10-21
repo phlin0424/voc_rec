@@ -70,12 +70,14 @@ def generate_vector(text: str, embedding: str = "OpenAI") -> list:
             )
         return embedding_generator.create_vector(input=text)
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"OpenAI API error: {e}")
+        raise HTTPException(status_code=500, detail=f"Embedding API error: {e}")
 
 
 if __name__ == "__main__":
     # The default embedding method:
-    print(generate_vector("세븐틴")[0:10])
+    print(len(generate_vector("세븐틴")))
+    # 1536
 
     # Other services:
-    print(generate_vector("세븐틴", embedding="Bedrock")[0:10])
+    print(len(generate_vector("세븐틴", embedding="Bedrock")))
+    # 1536
